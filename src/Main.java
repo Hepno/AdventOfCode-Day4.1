@@ -46,8 +46,8 @@ public class Main {
         }
 
         // Calculate Score
+        int id = 0;
         for (List<Integer> scratcher : scratchersList) {
-            int id = 1;
             int localScore = 0;
             for (int i : scratcher) {
                 for (int j : winningNumbersList.get(id)) {
@@ -57,6 +57,7 @@ public class Main {
                 }
             }
             score += localScore;
+            id++;
         }
         System.out.println(score);
 
