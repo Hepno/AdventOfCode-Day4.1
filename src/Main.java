@@ -25,43 +25,40 @@ public class Main {
         // Separate Lines into individual lists for the scratchers & winning numbers
         List<List<Integer>> winningNumbersList = new ArrayList<>();
         List<List<Integer>> scratchersList = new ArrayList<>();
+
         for (String line : lines) {
             List<Integer> winningNumbers = new ArrayList<>();
             List<Integer> scratcherNumbers = new ArrayList<>();
+
             String cutLine = line.replaceAll(".+: ", "");
             Matcher winningMatcher = Pattern.compile("\\d+").matcher(cutLine.substring(0, cutLine.indexOf("|")).trim());
-            Matcher scratcherMatcher = Pattern.compile("\\d+").matcher(cutLine.substring(0, cutLine.indexOf("|")).trim());
+            Matcher scratcherMatcher = Pattern.compile("\\d+").matcher(cutLine.replaceAll(".*\\|", ""));
+
             while (scratcherMatcher.find()) {
                 scratcherNumbers.add(Integer.valueOf(scratcherMatcher.group()));
             }
             while (winningMatcher.find()) {
                 winningNumbers.add(Integer.valueOf(winningMatcher.group()));
             }
+
             winningNumbersList.add(winningNumbers);
             scratchersList.add(scratcherNumbers);
         }
-
-        for (List<Integer> integers : winningNumbersList) {
-            for (Integer integer : integers) {
-                System.out.println(integer);
-            }
-            System.out.println("-");
-        }
-
-        // Code to scan one scratcher & its score
-/*      int localScore = 0;
-        int[] exampleCardWinning = new int[10];
-        int[] exampleCard = new int[25];
-
-        for (int i : exampleCardWinning) {
-            for (int j : exampleCard) {
-                if (i == j) {
-                    localScore = (localScore < 1) ? 1 : localScore * 2;
+        
+        // Calculate Score
+        for (List<Integer> ints : scratchersList) {
+            int id = 1;
+            int localScore = 0;
+            for (int i : ints) {
+                for (int j : winningNumbersList.get(id)) {
+                    if (i == j) {
+                        localScore = (localScore < 1) ? 1 : localScore * 2;
+                    }
                 }
             }
+            score += localScore;
         }
-        score += localScore;
-        System.out.println(localScore);*/
+        System.out.println(score);
 
     }
 }
