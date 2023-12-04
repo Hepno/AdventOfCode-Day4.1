@@ -28,28 +28,28 @@ public class Main {
 
         for (String line : lines) {
             List<Integer> winningNumbers = new ArrayList<>();
-            List<Integer> scratcherNumbers = new ArrayList<>();
+            List<Integer> scratchers = new ArrayList<>();
 
             String cutLine = line.replaceAll(".+: ", "");
             Matcher winningMatcher = Pattern.compile("\\d+").matcher(cutLine.substring(0, cutLine.indexOf("|")).trim());
             Matcher scratcherMatcher = Pattern.compile("\\d+").matcher(cutLine.replaceAll(".*\\|", ""));
 
             while (scratcherMatcher.find()) {
-                scratcherNumbers.add(Integer.valueOf(scratcherMatcher.group()));
+                scratchers.add(Integer.valueOf(scratcherMatcher.group()));
             }
             while (winningMatcher.find()) {
                 winningNumbers.add(Integer.valueOf(winningMatcher.group()));
             }
 
             winningNumbersList.add(winningNumbers);
-            scratchersList.add(scratcherNumbers);
+            scratchersList.add(scratchers);
         }
-        
+
         // Calculate Score
-        for (List<Integer> ints : scratchersList) {
+        for (List<Integer> scratcher : scratchersList) {
             int id = 1;
             int localScore = 0;
-            for (int i : ints) {
+            for (int i : scratcher) {
                 for (int j : winningNumbersList.get(id)) {
                     if (i == j) {
                         localScore = (localScore < 1) ? 1 : localScore * 2;
